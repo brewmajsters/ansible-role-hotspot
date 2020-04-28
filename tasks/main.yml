@@ -1,0 +1,29 @@
+---
+
+- name: install dhcp server package
+  become: true
+  apt:
+    name: isc-dhcp-server
+    state: present
+  tags: install
+
+- name: configure dhcp interfaces
+  become: true
+  template:
+    src: isc-dhcp-server.j2
+    dest: /etc/default/isc-dhcp-server
+  tags: configure
+
+- name: configure the dhcp server
+  become: true
+  template:
+    src: dhcp.conf
+    dest: /etc/dhcp/dhcpd.conf
+  tags: configure
+
+- name: configure the /etc/network/interfaces file
+  become: true
+  template:
+    src: interface.j2
+    dest: /etc/network/interfaces
+  tags: configure
