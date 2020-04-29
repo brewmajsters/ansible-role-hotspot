@@ -5,6 +5,7 @@ iface lo inet loopback
 # Assign a static IP for this DHCP server through wlan0:
 auto {{ hotspot_interface }}
 iface {{ hotspot_interface }} inet static
-    address {{ hotspot_dhcp.default_gw }}
+    hostapd /etc/hostapd/hostapd.conf
+    address {{ hotspot_dhcp.address }}
     netmask {{ hotspot_dhcp.mask }}
     broadcast {{ hotspot_dhcp.broadcast }}

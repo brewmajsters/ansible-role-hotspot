@@ -1,10 +1,46 @@
 ---
 
-- name: install dhcp server package
+- name: stop wifi network interface
+  become: true
+  command: "ifdown {{ hotspot_interface }}"
+  tags: configure
+
+- name: reconfigure wpa_supplicant configuration
+  become: true
+  copy:
+    src: wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+
+- name: stop dhcpcd on wifi interface
+  become: true
+  blockinfile:
+    block: |
+      nohook wpa_supplicant
+      denyinterfaces {{ hotspot_interface }}
+    path: /etc/dhcpcd.conf
+  loop:
+  tags: configure
+
+- name: restart dhcpcd service
+  become: true
+  service:
+    name: dhcpcd
+    state: restarted
+  tags: configure
+
+- name: install dhcp server, hotspot ap package
   become: true
   apt:
-    name: isc-dhcp-server
+    name: "{{ item }}"
     state: present
+  loop: "{{ hotspot_services.packages }}"
+  tags: install
+
+- name: unmask hostapd service
+  become: true
+  systemd:
+    name: hostapd
+    masked: false
   tags: install
 
 - name: configure dhcp interfaces
@@ -17,13 +53,33 @@
 - name: configure the dhcp server
   become: true
   template:
-    src: dhcp.conf
+    src: dhcpd.conf
     dest: /etc/dhcp/dhcpd.conf
   tags: configure
 
 - name: configure the /etc/network/interfaces file
   become: true
   template:
-    src: interface.j2
-    dest: /etc/network/interfaces
+    src: interfaces.j2
+    dest: /etc/network/interfaces.d/dhcp_interfaces
   tags: configure
+
+- name: configure hotspot
+  become: true
+  template:
+    src: hostapd.conf.j2
+    dest: /etc/hostapd/hostapd.conf
+
+- name: start network interface
+  become: true
+  command: "ifup {{ hotspot_interface }}"
+  tags: configure
+
+- name: restart DHCP server service
+  become: true
+  service:
+    name: isc-dhcp-server
+    state: restarted
+  tags:
+    - install
+    - configure

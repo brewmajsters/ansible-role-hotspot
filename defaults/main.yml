@@ -7,8 +7,8 @@ hotspot_domain_name_servers:
   - '8.8.8.8'
 
 hotspot_dhcp:
-  start_ip: '10.100.100.1'
-  stop_ip: '10.100.100.20'
+  first_ip: '10.100.100.1'
+  last_ip: '10.100.100.20'
   address: '10.100.100.100'
   subnet: '10.100.100.0'
   broadcast: '10.100.100.255'
@@ -17,3 +17,7 @@ hotspot_dhcp:
   default_lease: '600'
   # max lease time in seconds
   max_lease: '7200'
+
+hotspot_wifi_ssid: brewmaster-wifi
+hotspot_wifi_password: changemeimweak
+hotspot_wifi_channel: 8

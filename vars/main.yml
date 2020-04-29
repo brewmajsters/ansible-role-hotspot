@@ -1,0 +1,6 @@
+---
+
+hotspot_services:
+  packages:
+    - isc-dhcp-server
+    - hostapd

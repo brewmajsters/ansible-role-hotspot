@@ -1,0 +1,19 @@
+#2.4GHz setup wifi 80211 b,g,n
+interface={{ hotspot_interface }}
+driver=nl80211
+ssid={{ hotspot_wifi_ssid }}
+hw_mode=g
+channel={{ hotspot_wifi_channel }}
+wmm_enabled=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase={{ hotspot_wifi_password }}
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=CCMP TKIP
+rsn_pairwise=CCMP
+
+country_code=SK
+ieee80211n=1
+ieee80211d=1
