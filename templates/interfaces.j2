@@ -1,0 +1,11 @@
+# The loopback network interface (always required)
+auto lo
+iface lo inet loopback
+
+# Assign a static IP for this DHCP server through wlan0:
+auto {{ hotspot_interface }}
+iface {{ hotspot_interface }} inet static
+    hostapd /etc/hostapd/hostapd.conf
+    address {{ hotspot_dhcp.address }}
+    netmask {{ hotspot_dhcp.mask }}
+    broadcast {{ hotspot_dhcp.broadcast }}

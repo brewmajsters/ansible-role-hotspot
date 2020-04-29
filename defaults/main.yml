@@ -1,0 +1,23 @@
+---
+
+hotspot_interface: 'wlan0'
+hotspot_domain_name: 'brewmaster-pi.sk'
+hotspot_domain_name_servers:
+  - '1.1.1.1'
+  - '8.8.8.8'
+
+hotspot_dhcp:
+  first_ip: '10.100.100.1'
+  last_ip: '10.100.100.20'
+  address: '10.100.100.100'
+  subnet: '10.100.100.0'
+  broadcast: '10.100.100.255'
+  mask: '255.255.255.0'
+  # default lease time in seconds
+  default_lease: '600'
+  # max lease time in seconds
+  max_lease: '7200'
+
+hotspot_wifi_ssid: brewmaster-wifi
+hotspot_wifi_password: changemeimweak
+hotspot_wifi_channel: 8
